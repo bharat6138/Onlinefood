@@ -1,13 +1,11 @@
 {
 	"name": "foodvilla",
 	"version": "1.0.0",
-	"description": "Online food order",
+	"description": "Online Food Order",
 	"scripts": {
 		"start": "parcel index.html",
 		"build": "parcel build index.html"
 	},
-	"author": "",
-	"license": "ISC",
 	"devDependencies": {
 		"@babel/core": "^7.20.12",
 		"parcel": "^2.8.3",
