@@ -17,9 +17,7 @@
 		"jquery": "^3.6.3",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"react-helmet": "^6.1.0",
 		"react-router-dom": "^6.7.0",
-		"react-script-tag": "^1.1.1",
 		"react-slick": "^0.29.0"
 	}
 }
