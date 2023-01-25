@@ -1,8 +1,38 @@
 export const IMG_CDN_URL =
 	"https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/";
 
+// export const RES_LIST = `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${latitude}&lng=${longitude}&page_type=DESKTOP_WEB_LISTING`;
+
+export const RES_API_URL = `https://www.swiggy.com/dapi/`;
+
 export const IMG_SLIDER_URL =
 	"https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/";
+
+export const settings = {
+	slidesToShow: 4,
+	arrows: true,
+	responsive: [
+		{
+			breakpoint: 768,
+			settings: {
+				arrows: true,
+				centerMode: true,
+				centerPadding: "40px",
+				slidesToShow: 2,
+			},
+		},
+		{
+			breakpoint: 480,
+			settings: {
+				arrows: false,
+				centerMode: true,
+				centerPadding: "40px",
+				slidesToShow: 2,
+			},
+		},
+	],
+};
+
 export const Restaurant_Data = [
 	{
 		type: "restaurant",

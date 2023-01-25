@@ -610,7 +610,7 @@ p {
 
 .list-card a,
 .list-card h6 {
-	color: inherit;
+	color: black !important;
 	overflow: hidden;
 	white-space: nowrap;
 	font-size: 15px;

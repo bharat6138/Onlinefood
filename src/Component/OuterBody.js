@@ -1,66 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Restuarants from "./Restuarants";
-import { usePosition } from "../../utils/usePosition";
-import { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { IMG_SLIDER_URL } from "./config";
+import { IMG_SLIDER_URL, settings } from "./config";
 import { Skeleton, Skeletonimg } from "./Skeleton";
 import { Link } from "react-router-dom";
+import { filterData } from "../../utils/helper";
+import useGetRestuarant from "../../utils/useGetRestuarant";
+import { useParams } from "react-router-dom";
 export const OuterBody = () => {
+	const { id } = useParams();
+	console.log(id);
 	const [searchKeyword, setSearchKeyword] = useState("");
-	const [isVisible, setIsVisible] = useState(false);
-	const [allresturantList, setAllResturantList] = useState([]);
-	const [filteredResturantsList, setFilteredResturantsList] = useState([]);
-	const [sliderResturantsList, setSliderResturantsList] = useState([]);
-	const { latitude, longitude, error } = usePosition();
-	const API_URL = `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${latitude}&lng=${longitude}&page_type=DESKTOP_WEB_LISTING`;
-
-	function filterData(searchInput, resturantsList) {
-		let searchData = resturantsList.filter((item) =>
-			item?.data?.name?.toLowerCase().includes(searchInput.toLowerCase()),
-		);
-		// console.log(searchData);
-		return searchData;
-	}
-	useEffect(() => {
-		if (latitude && longitude) getRestaurants();
-	}, [latitude, longitude]);
-
-	// console.log(API_URL);
-	async function getRestaurants() {
-		const data = await fetch(API_URL);
-
-		const json = await data.json();
-		setAllResturantList(json?.data?.cards[2]?.data?.data?.cards);
-		setFilteredResturantsList(json?.data?.cards[2]?.data?.data?.cards);
-		setSliderResturantsList(json?.data?.cards[0]?.data?.data?.cards);
-		console.log(API_URL);
-		// console.log(ADDRESS);
-	}
-	var settings = {
-		slidesToShow: 4,
-		arrows: true,
-		responsive: [
-			{
-				breakpoint: 768,
-				settings: {
-					arrows: true,
-					centerMode: true,
-					centerPadding: "40px",
-					slidesToShow: 2,
-				},
-			},
-			{
-				breakpoint: 480,
-				settings: {
-					arrows: false,
-					centerMode: true,
-					centerPadding: "40px",
-					slidesToShow: 2,
-				},
-			},
-		],
-	};
+	const {
+		delivery,
+		allresturantList,
+		filteredResturantsList,
+		sliderResturantsList,
+		setFilteredResturantsList,
+	} = useGetRestuarant(id);
 	return (
 		<>
 			<div class="osahan-home-page">
@@ -116,59 +73,134 @@ export const OuterBody = () => {
 					</div>
 				</div>
 			) : (
-				<div className="container">
-					{/* Most popular */}
-					<div className="py-3 title ">
-						<div className="row align-items-center mb-4 mt-3 ">
-							<div className="col-md-6">
-								<h5 className="m-0">
-									{filteredResturantsList?.length > 0
-										? `${filteredResturantsList?.length} resturants`
+				<>
+					<div class="bg-white shadow-sm">
+						<div class="container">
+							<div className="bg-white">
+								<ul className="nav nav-tabs" id="myTab" role="tablist">
+									<li className="nav-item" role="presentation">
+										<Link
+											className="px-0 py-3 nav-link text-dark h6 border-0 mb-0 active"
+											id="relevance-tab"
+											data-toggle="tab"
+											to="/"
+											data-target="#relevance"
+											role="tab"
+											aria-controls="relevance"
+											aria-selected="false"
+										>
+											Relevance
+										</Link>
+									</li>
+									<li className="nav-item bottom-tab" role="presentation">
+										<Link
+											className="px-0 py-3 nav-link text-dark h6 border-0 mb-0 ml-3"
+											id="delivery-tab"
+											data-toggle="tab"
+											to="/DELIVERY_TIME"
+											data-target="#delivery"
+											role="tab"
+											aria-controls="delivery"
+											aria-selected="true"
+										>
+											Delivery Time
+										</Link>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div className="container">
+						{/* Most popular */}
+						<div className="tab-content" id="myTabContent">
+							<div
+								className="tab-pane fade show active py-4"
+								id="relevance"
+								role="tabpanel"
+								aria-labelledby="relevance-tab"
+							>
+								{/* Most popular */}
+								<div className="title ">
+									<div className="row align-items-center mb-4">
+										<div className="col-md-6">
+											<h5 className="m-0">
+												{filteredResturantsList?.length > 0
+													? `${filteredResturantsList?.length} resturants`
+													: "no result found"}
+											</h5>
+										</div>
+										<div className="col-md-6">
+											<div className="input-group">
+												<input
+													type="text"
+													className="form-control form-control-lg input_search border-right-0"
+													id="inlineFormInputGroup"
+													placeholder="Search for restaurants and food"
+													value={searchKeyword}
+													onChange={(e) => setSearchKeyword(e.target.value)}
+												/>
+												<div className="input-group-prepend">
+													<div
+														className="btn input-group-text bg-white border_search border-left-0 text-primary"
+														onClick={() => {
+															let filtered = filterData(searchKeyword, allresturantList);
+															setFilteredResturantsList(filtered);
+														}}
+													>
+														<i className="feather-search" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div className="most_popular">
+									<div className="row">
+										{filteredResturantsList?.map((restaurant, index) => {
+											return (
+												<Link
+													to={"/restaurant/" + restaurant.data.id}
+													className="col-md-3 pb-3"
+													key={index}
+												>
+													<Restuarants {...restaurant.data} />
+												</Link>
+											);
+										})}
+									</div>
+								</div>
+							</div>
+							<div
+								className="tab-pane fade py-4"
+								id="delivery"
+								role="tabpanel"
+								aria-labelledby="delivery-tab"
+							>
+								<h5 className="mb-1">
+									{delivery?.length > 0
+										? `All offers (${delivery?.length})`
 										: "no result found"}
 								</h5>
-							</div>
-							<div className="col-md-6">
-								<div className="input-group">
-									<input
-										type="text"
-										className="form-control form-control-lg input_search border-right-0"
-										id="inlineFormInputGroup"
-										placeholder="Search for restaurants and food"
-										value={searchKeyword}
-										onChange={(e) => setSearchKeyword(e.target.value)}
-									/>
-									<div className="input-group-prepend">
-										<div
-											className="btn input-group-text bg-white border_search border-left-0 text-primary"
-											onClick={() => {
-												let filtered = filterData(searchKeyword, allresturantList);
-												setFilteredResturantsList(filtered);
-											}}
-										>
-											<i className="feather-search" />
-										</div>
+								<p>All offers and deals, from restaurants near you</p>
+								<div className="most_popular">
+									<div className="row">
+										{delivery?.map((restaurant, index) => {
+											return (
+												<Link
+													to={"/restaurant/" + restaurant.data.id}
+													className="col-md-3 pb-3"
+													key={index}
+												>
+													<Restuarants {...restaurant.data} />
+												</Link>
+											);
+										})}
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					{/* Most popular */}
-					<div className="most_popular">
-						<div className="row">
-							{filteredResturantsList?.map((restaurant, index) => {
-								return (
-									<Link
-										to={"/restaurant/" + restaurant.data.id}
-										className="col-md-3 pb-3"
-										key={index}
-									>
-										<Restuarants {...restaurant.data} />
-									</Link>
-								);
-							})}
-						</div>
-					</div>
-				</div>
+				</>
 			)}
 		</>
 	);

@@ -42,7 +42,11 @@ const Restuarants = ({
 				<a href="/">
 					<img
 						alt="#"
-						src={IMG_CDN_URL + cloudinaryImageId}
+						src={
+							!cloudinaryImageId
+								? "https://cdn.dribbble.com/users/1012566/screenshots/4187820/media/3cb974c28eb00627cc0671685c79ffd9.jpg"
+								: IMG_CDN_URL + cloudinaryImageId
+						}
 						className="img-fluid item-img w-100"
 					/>
 				</a>
@@ -54,7 +58,7 @@ const Restuarants = ({
 							{name}
 						</a>
 					</h6>
-					<p className="text-gray mb-1 small">{cuisines.join(", ")}</p>
+					{/* <p className="text-gray mb-1 small">{cuisines.join(", ")}</p> */}
 					<p className="text-gray mb-1 rating"></p>
 					<p className="text-gray mb-3 time">
 						<span className="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2">

@@ -1,62 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import { usePosition } from "../../utils/usePosition";
+import useRestuarantMenu from "../../utils/useRestuarantMenu";
 import { IMG_CDN_URL } from "./config";
 import Skeleton from "./Skeleton";
 
 const ResturantMenu = () => {
 	const { id } = useParams();
 	console.log(id);
-	const [resturantList, setResturantList] = useState(null);
-	const { latitude, longitude, error } = usePosition();
-	const API_URL = `https://www.swiggy.com/dapi/menu/v4/full?lat=${latitude}&lng=${longitude}&menuId=${id}`;
+	const resturantList = useRestuarantMenu(id);
 
-	async function getRestaurants() {
-		const data = await fetch(API_URL);
-		const json = await data.json();
-		setResturantList(json?.data);
-		console.log(API_URL);
-	}
-	useEffect(() => {
-		if (latitude && longitude) getRestaurants();
-	}, [latitude, longitude]);
-
-	// Create an array of objects
-	// const books = [
-	// 	{
-	// 		data: {
-	// 			menu: {
-	// 				items: {
-	// 					11: {
-	// 						id: 111,
-	// 						name: "Hariyali",
-	// 						category: "Tandoori",
-	// 					},
-	// 					22: {
-	// 						id: 222,
-	// 						name: "Paneer Tikka",
-	// 						category: "Tandoori",
-	// 					},
-	// 					33: {
-	// 						id: 333,
-	// 						name: "Tikka",
-	// 						category: "Chinese",
-	// 					},
-	// 					44: {
-	// 						id: 444,
-	// 						name: "Paneer",
-	// 						category: "Chinese",
-	// 					},
-	// 				},
-	// 			},
-	// 		},
-	// 	},
-	// ];
-
-	// const jsonObject =
-	// 	books?.data?.menu?.items &&
-	// 	Object.entries(books?.data?.menu?.items).map(JSON.stringify);
-	// console.log(jsonObject);
 	return (
 		<>
 			<div>
@@ -140,14 +92,17 @@ const ResturantMenu = () => {
 													</small>
 												</h6> */}
 
-										<h6 className="p-3 m-0 bg-light w-100">
-											<small className="text-black-50 ml-2">ITEMS</small>
-										</h6>
 										{resturantList?.menu?.items &&
-											Object.values(resturantList?.menu?.items).map((item) => (
-												<div className="col-md-12 px-0 border-top">
-													<div className>
-														<div className="p-3 border-bottom menu-list">
+											Object.values(resturantList?.menu?.items).map((item, index) => (
+												<>
+													<h6
+														className="p-3 m-0 bg-light w-100 border-top item-category"
+														id={item.category}
+													>
+														{item.category}
+													</h6>
+													<div className="col-md-12 px-0 border-top">
+														<div className="p-3 menu-list">
 															<span className="float-right">
 																<a
 																	href="#"
@@ -187,7 +142,7 @@ const ResturantMenu = () => {
 															</div>
 														</div>
 													</div>
-												</div>
+												</>
 											))}
 									</div>
 								</div>
@@ -217,7 +172,7 @@ const ResturantMenu = () => {
 											key={index}
 										>
 											<div className="media align-items-center">
-												<a href="/" className="media-body">
+												<a href={"#" + item.name} className="media-body">
 													<p className="m-0">{item.name}</p>
 												</a>
 											</div>
