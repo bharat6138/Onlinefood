@@ -15,11 +15,8 @@ const useRestuarantMenu = (id) => {
 	}
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			console.log("This will run every second!");
-			if (latitude && longitude) getRestaurants();
-		}, 1000);
-		return () => clearInterval(interval);
+		removeDuplicate();
+		if (latitude && longitude) getRestaurants();
 	}, [latitude, longitude]);
 	removeDuplicate();
 	return resturantList;
