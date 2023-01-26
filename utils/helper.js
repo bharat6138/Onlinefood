@@ -6,11 +6,12 @@ export function filterData(searchInput, resturantsList) {
 	return searchData;
 }
 
-export function urlChange(urlToggle) {
-	urlToggle = !urlToggle;
-	if (urlToggle) {
-		baseUrl = "https://swapi.dev/api/people";
-	} else {
-		baseUrl = "https://pokeapi.co/api/v2/berry";
-	}
+export function removeDuplicate() {
+	let items = $(".item-category");
+
+	let repes = items.filter(
+		(ind, itm) => $(itm).prevAll(`:contains(${itm.innerText})`).length,
+	);
+
+	repes.remove();
 }

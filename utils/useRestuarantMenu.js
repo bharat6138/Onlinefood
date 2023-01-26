@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { usePosition } from "./usePosition";
 import { RES_API_URL } from "../src/Component/config";
+import { removeDuplicate } from "./helper";
 const useRestuarantMenu = (id) => {
 	const [resturantList, setResturantList] = useState(null);
 	const { latitude, longitude, error } = usePosition();
@@ -13,23 +14,14 @@ const useRestuarantMenu = (id) => {
 		console.log(API_URL);
 	}
 
-	function removeDuplicate() {
-		let items = $(".item-category");
-
-		let repes = items.filter(
-			(ind, itm) => $(itm).prevAll(`:contains(${itm.innerText})`).length,
-		);
-
-		repes.remove();
-	}
-	removeDuplicate();
 	useEffect(() => {
-		if (latitude && longitude) getRestaurants();
-		return () => {
-			removeDuplicate();
-		};
+		const interval = setInterval(() => {
+			console.log("This will run every second!");
+			if (latitude && longitude) getRestaurants();
+		}, 1000);
+		return () => clearInterval(interval);
 	}, [latitude, longitude]);
-
+	removeDuplicate();
 	return resturantList;
 };
 
