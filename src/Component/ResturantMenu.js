@@ -74,7 +74,7 @@ const ResturantMenu = () => {
 							<div className="d-flex item-aligns-center">
 								<p className="font-weight-bold h6 p-3 border-bottom mb-0 w-100">Menu</p>
 
-								{/* <a class="small text-primary font-weight-bold ml-auto" href="#">View all <i class="feather-chevrons-right"></i></a> */}
+								{/* <a className="small text-primary font-weight-bold ml-auto" href="#">View all <i className="feather-chevrons-right"></i></a> */}
 							</div>
 
 							<div className="row m-0">
@@ -122,9 +122,13 @@ const ResturantMenu = () => {
 															<h6 className="mb-1">
 																{item?.name}
 																{item.attributes.vegClassifier === "VEG" ? (
-																	<span class="ml-2 badge badge-success text-white">Veg</span>
+																	<span className="ml-2 badge badge-success text-white">
+																		Veg
+																	</span>
 																) : item.attributes.vegClassifier === "NONVEG" ? (
-																	<span class="ml-2 badge badge-danger text-white">Non veg</span>
+																	<span className="ml-2 badge badge-danger text-white">
+																		Non veg
+																	</span>
 																) : (
 																	""
 																)}

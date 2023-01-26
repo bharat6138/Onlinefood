@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { filterData } from "../../utils/helper";
 import useGetRestuarant from "../../utils/useGetRestuarant";
 import { useParams } from "react-router-dom";
+import logo from "../../assets/img/logo_web.png";
 export const OuterBody = () => {
 	const { id } = useParams();
 	console.log(id);
@@ -20,7 +21,26 @@ export const OuterBody = () => {
 	} = useGetRestuarant(id);
 	return (
 		<>
-			<div class="osahan-home-page">
+			<div className="osahan-home-page">
+				<div className="bg-primary p-3 d-none">
+					<div className="text-white">
+						<div className="title d-flex align-items-center">
+							<a className="toggle mt-1" href="#">
+								<span />
+							</a>
+							<h4 className="font-weight-bold m-0 pl-5">
+								<img
+									src={logo}
+									className="mr-2"
+									style={{ width: "40px", filter: "brightness(0.5)" }}
+									alt="logo"
+								/>{" "}
+								Foodvilla
+							</h4>
+						</div>
+					</div>
+				</div>
+
 				<div style={{ backgroundColor: "#171a29" }}>
 					<div className="container">
 						{allresturantList?.length === 0 ? (
@@ -74,8 +94,8 @@ export const OuterBody = () => {
 				</div>
 			) : (
 				<>
-					<div class="bg-white shadow-sm">
-						<div class="container">
+					<div className="bg-white shadow-sm">
+						<div className="container">
 							<div className="bg-white">
 								<ul className="nav nav-tabs" id="myTab" role="tablist">
 									<li className="nav-item" role="presentation">
