@@ -42661,6 +42661,7 @@ function removeDuplicate() {
     let items = $(".item-category");
     let repes = items.filter((ind, itm)=>$(itm).prevAll(`:contains(${itm.innerText})`).length);
     repes.remove();
+    items.removeClass("d-none");
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lhsTu":[function(require,module,exports) {
@@ -43042,7 +43043,7 @@ const ResturantMenu = ()=>{
                                         children: resturantList?.menu?.items && Object.values(resturantList?.menu?.items).map((item, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                                                 children: [
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h6", {
-                                                        className: "p-3 m-0 bg-light w-100 border-top item-category",
+                                                        className: "p-3 m-0 bg-light w-100 border-top item-category d-none",
                                                         id: item.category,
                                                         children: item.category
                                                     }, void 0, false, {
@@ -43338,14 +43339,18 @@ const useRestuarantMenu = (id)=>{
         setResturantList(json?.data);
         console.log(API_URL);
     }
+    (0, _helper.removeDuplicate)();
     (0, _react.useEffect)(()=>{
-        (0, _helper.removeDuplicate)();
         if (latitude && longitude) getRestaurants();
+        const interval = setInterval(()=>{
+            console.log("This will run every second!");
+            (0, _helper.removeDuplicate)();
+        }, 1000);
+        return ()=>clearInterval(interval);
     }, [
         latitude,
         longitude
     ]);
-    (0, _helper.removeDuplicate)();
     return resturantList;
 };
 _s(useRestuarantMenu, "v7oUcS6CIziMHZWcmGxNQbeapms=", false, function() {

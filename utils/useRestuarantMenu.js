@@ -13,12 +13,17 @@ const useRestuarantMenu = (id) => {
 		setResturantList(json?.data);
 		console.log(API_URL);
 	}
-
-	useEffect(() => {
-		removeDuplicate();
-		if (latitude && longitude) getRestaurants();
-	}, [latitude, longitude]);
 	removeDuplicate();
+	useEffect(() => {
+		if (latitude && longitude) getRestaurants();
+
+		const interval = setInterval(() => {
+			console.log("This will run every second!");
+			removeDuplicate();
+		}, 1000);
+		return () => clearInterval(interval);
+	}, [latitude, longitude]);
+
 	return resturantList;
 };
 

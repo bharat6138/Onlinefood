@@ -14,4 +14,5 @@ export function removeDuplicate() {
 	);
 
 	repes.remove();
+	items.removeClass("d-none");
 }

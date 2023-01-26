@@ -90,7 +90,7 @@ const ResturantMenu = () => {
 									Object.values(resturantList?.menu?.items).map((item, index) => (
 										<>
 											<h6
-												className="p-3 m-0 bg-light w-100 border-top item-category"
+												className="p-3 m-0 bg-light w-100 border-top item-category d-none"
 												id={item.category}
 											>
 												{item.category}
